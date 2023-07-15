@@ -9,6 +9,8 @@
            #:disable-scissor
            #:with-scissor))
 
+(in-package #:sketch-utils)
+
 ;;; Basic with- macros for translate, rotate and scale sketch functions
 (defmacro with-translate ((dx dy) &body body)
   `(with-current-matrix
