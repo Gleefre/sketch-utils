@@ -4,7 +4,8 @@
   (:export #:with-translate
            #:with-rotate
            #:with-scale)
-  (:export #:filter-alpha)
+  (:export #:filter-alpha
+           #:with-color)
   (:export #:enable-scissor
            #:disable-scissor
            #:with-scissor))
@@ -31,6 +32,10 @@
 (defun filter-alpha (color alpha)
   (rgb (color-red color) (color-green color) (color-blue color)
        alpha))
+
+(defmacro with-color ((color &optional (type :fill)) &body body)
+  `(with-pen (make-pen ,type ,color)
+     ,@body))
 
 ;;; scissors
 (defun enable-scissor (x y w h)
