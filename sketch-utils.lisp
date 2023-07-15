@@ -9,7 +9,7 @@
            #:disable-scissor
            #:with-scissor))
 
-;; Basic with- macros for translate, rotate and scale sketch functions
+;;; Basic with- macros for translate, rotate and scale sketch functions
 (defmacro with-translate ((dx dy) &body body)
   `(with-current-matrix
      (translate ,dx ,dy)
@@ -25,14 +25,12 @@
      (scale ,sx ,sy ,cx ,cy)
      ,@body))
 
-;; colors
-
+;;; colors
 (defun filter-alpha (color alpha)
   (rgb (color-red color) (color-green color) (color-blue color)
        alpha))
 
-;; scissors
-
+;;; scissors
 (defun enable-scissor (x y w h)
   (gl:enable :scissor-test)
   (destructuring-bind ((x1 y1) (x2 y2))
