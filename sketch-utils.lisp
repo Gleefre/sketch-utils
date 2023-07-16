@@ -46,7 +46,9 @@
        (sketch::transform-vertex (list (+ x w) y) (sketch::env-model-matrix sketch::*env*)))
     (let* ((height (sketch::sketch-height sketch::*sketch*))
            (y1 (- height y1))
-           (y2 (- height y2)))
+           (y2 (- height y2))
+           (x2 (max x1 x2))
+           (y2 (max y1 y2)))
       (gl:scissor x1 y1 (- x2 x1) (- y2 y1)))))
 
 (defun disable-scissor ()
