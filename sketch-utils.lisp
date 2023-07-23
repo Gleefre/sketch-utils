@@ -1,6 +1,7 @@
 (defpackage #:sketch-utils
   (:use #:cl #:sketch #:sketch-fit)
   (:export #:fit #:with-fit #:fit-point)
+  (:export #:with-split)
   (:export #:with-translate
            #:with-rotate
            #:with-scale)
@@ -11,6 +12,31 @@
            #:with-scissor))
 
 (in-package #:sketch-utils)
+
+;;; with-split macro
+(defmacro with-split ((width-var height-var &optional (orientation :horizontal))
+                      &body size-body)
+  (declare (type (member :horizontal :vertical) orientation))
+  (let (($sizes (loop for clause in size-body collect (gensym "size")))
+        ($sum-of-sizes (gensym "sum-of-sizes")))
+    `(let (,@(loop for (size . body) in size-body
+                   for $size in $sizes
+                   collect `(,$size ,size)))
+       (let ((,$sum-of-sizes (+ ,@$sizes)))
+         (with-current-matrix
+             ,@(loop for (size . body) in size-body
+                     for $size in $sizes
+                     collect `(let (,@(if (eq orientation :horizontal)
+                                          `((,height-var ,height-var)
+                                            (,width-var (* (/ ,$size ,$sum-of-sizes) ,width-var)))
+                                          `((,width-var ,width-var)
+                                            (,height-var (* (/ ,$size ,$sum-of-sizes) ,height-var)))))
+                                (declare (ignorable ,height-var ,width-var))
+                                ,@body)
+                     collect (if (eq orientation :horizontal)
+                                 `(translate (* (/ ,$size ,$sum-of-sizes) ,width-var) 0)
+                                 `(translate 0 (* (/ ,$size ,$sum-of-sizes) ,height-var))))))
+       nil)))
 
 ;;; Basic with- macros for translate, rotate and scale sketch functions
 (defmacro with-translate ((dx dy) &body body)
