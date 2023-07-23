@@ -1,5 +1,5 @@
 (defpackage #:sketch-utils
-  (:use #:cl #:sketch #:sketch-fit)
+  (:use #:cl #:sketch #:sketch-fit #:sketch-buttons)
   (:export #:fit #:with-fit #:fit-point)
   (:export #:with-split)
   (:export #:with-translate
@@ -9,7 +9,28 @@
            #:with-color)
   (:export #:enable-scissor
            #:disable-scissor
-           #:with-scissor))
+           #:with-scissor)
+  ;; sketch-buttons
+  (:export #:button
+           #:on-press
+           #:on-release
+           #:on-hover
+           #:on-unhover)
+  (:export #:button-contains
+           #:button-event
+           #:button-motion-event
+           #:button-press
+           #:button-release
+           #:button-hover
+           #:button-unhover)
+  (:export #:bind
+           #:binds)
+  (:export #:with-buttons)
+  (:export #:rectangle-button
+           #:brect)
+  (:export #:ellipse-button
+           #:bellipse
+           #:bcircle))
 
 (in-package #:sketch-utils)
 
