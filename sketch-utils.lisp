@@ -84,18 +84,18 @@
                    collect `(,$size ,size)))
        (let ((,$sum-of-sizes (+ ,@$sizes)))
          (with-current-matrix
-             ,@(loop for (size . body) in size-body
-                     for $size in $sizes
-                     collect `(let (,@(if (eq orientation :horizontal)
-                                          `((,height-var ,height-var)
-                                            (,width-var (* (/ ,$size ,$sum-of-sizes) ,width-var)))
-                                          `((,width-var ,width-var)
-                                            (,height-var (* (/ ,$size ,$sum-of-sizes) ,height-var)))))
-                                (declare (ignorable ,height-var ,width-var))
-                                ,@body)
-                     collect (if (eq orientation :horizontal)
-                                 `(translate (* (/ ,$size ,$sum-of-sizes) ,width-var) 0)
-                                 `(translate 0 (* (/ ,$size ,$sum-of-sizes) ,height-var))))))
+           ,@(loop for (size . body) in size-body
+                   for $size in $sizes
+                   collect `(let (,@(if (eq orientation :horizontal)
+                                        `((,height-var ,height-var)
+                                          (,width-var (* (/ ,$size ,$sum-of-sizes) ,width-var)))
+                                        `((,width-var ,width-var)
+                                          (,height-var (* (/ ,$size ,$sum-of-sizes) ,height-var)))))
+                              (declare (ignorable ,height-var ,width-var))
+                              ,@body)
+                   collect (if (eq orientation :horizontal)
+                               `(translate (* (/ ,$size ,$sum-of-sizes) ,width-var) 0)
+                               `(translate 0 (* (/ ,$size ,$sum-of-sizes) ,height-var))))))
        nil)))
 
 ;;; Basic with- macros for translate, rotate and scale sketch functions
