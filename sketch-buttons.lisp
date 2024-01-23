@@ -122,7 +122,7 @@
 (stealth-mixin:define-stealth-mixin sketch-buttons () s:sketch
   ((%buttons :initform NIL :accessor %buttons)))
 
-(defmethod kit.sdl2:render :around ((app sketch-buttons))
+(defmethod sketch:draw :around ((app sketch-buttons) &key &allow-other-keys)
   (setf (%buttons app)
         (with-buttons ()
           (call-next-method))))
